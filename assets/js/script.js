@@ -1,125 +1,133 @@
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerElement = document.getElementById('question-container')
-const questionElement = document.getElementById('question')
-const answerButtonsElement = document.getElementById('answer-buttons')
+
 var timerEl = document.getElementById('countdown');
-var timeLeft = 30;
+var startBtn = document.getElementById('start');
+var questionEl = document.getElementById('question');
+var answerBtn = document.getElementById('answer');
+var mainEl = document.querySelector("#details");
+var quizTime = 30;
 
-var randomizeQuestions, currentQuestionIndex
-
-startButton.addEventListener('click',startGame, countdown);
-nextButton.addEventListener('click', () => {
-    currentQuestionIndex++
-});
-
-function startGame() {
-    startButton.classList.add('hide');
-    randomizeQuestions = questions.sort(() => Math.random() - .5);
-    currentQuestionIndex = 0;
-    questionContainerElement.classList.remove('hide');
-    nextQuestion();
-}
-
-function nextQuestion() {
-    viewQuestion (randomizeQuestions[currentQuestionIndex]);
-
-}
-
-function viewQuestion(question) {
-    resetState();
-    questionElement.innerText = question.question;
-    question.answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.innerText = answer.text;
-        button.classList.add('btn');
-
-        if(answer.correct) {
-            button.dataset.correct = answer.correct;
-        }
-        button.addEventListener('click', selectAnswer);
-        answerButtonsElement.appendChild(button)
-    })
-}
-
-function selectAnswer(x) {
-    var selectedButton = x.target;
-    var correct = selectedButton.dataset.correct;
-    setStatusClass(document.body,correct);
-    Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.ddataset.correct)
-    })
-    if (randomizeQuestions.length > currentQuestionIndex + 1) {
-        nextButton.classList.remove('hide')
-    }
-    else {
-        // enter name/high score function
-    }
-}
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element);
-    if (correct) {
-        score++;
-        element.classList.add('tracker')
-    } else {
-        timeLeft - 5000;
-    }
-}
-
-
-function resetState() {
-    nextButton.classList.add('hide');
-    while(answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild;
-        (answerButtonsElement.firstChild);
-    }
-}
-var questions = [
-    {
-        question: "Can I make a website using only HTML?",
-        answers: [
-            {text: 'true', correct: true},
-            {text: 'false', correct: false}
-        ]
-    },
-
-    {
-        question: "What does CSS stand for?",
-        answers: [
-            {text: 'Cascading Style Sheets', correct: true},
-            {text: 'Continuing Style Sheets', correct: false}
-        ]
-
-    },
-
-    {
-        question: "What does JS stand for?",
-        answers: [
-            {text: 'Just Saying', correct: false},
-            {text: 'Javascript', correct: true}
-        ]
-
-    }
-];
 
 var score = 0;
 
+var questions = [
+    {
+        q: "Commonly used data types DO NOT include:",
+        c: ["strings", "booleans", "alerts", "numbers"],
+        a: "alerts"
+      },
+      {
+        q: "The condition in an if / else statement is enclosed within ____.",
+        c: ["quotes", "curly brackets", "parentheses", "square brackets"],
+        a: "parentheses"
+      },
+      {
+        q: "What does CSS stand for?",
+        c: ["Cascading Styles Sheet", "Javascript", "Continuing Styles Sheet"],
+        a: "Cascading Styles Sheet"
+      },
+      {
+        q: "DOM is an abreviation for ____",
+        c: ["Data Object Mode", "Dumb Old Man", "Document Object Model", "Dutle Opo Mipsy"],
+        a: "Document Object Model"
+      },
+      {
+        q: "Is JavaScript  fun to use?",
+        c: ["Yes", "No"],
+        a: "Yes"
+      },
+      {
+        q: "Can I make a website using HTML?",
+        c: ["True", "False"],
+        a: "True"
+      }
+];
 
+function startQuiz () {
+    quiz = setQuestions(questions);
+    countdown();
+    newQuestion();
+
+}
+
+// function to get random question out of array
+
+function setQuestions (arr) {
+    let ranQuest = [];
+
+    for (let i=0; i<arr.length; i++) {
+        ranQuest.push(arr[i]);
+    }
+
+    return ranQuest;
+}
+
+// function to get new question
+
+
+function newQuestion () {
+    if (questions.length === 0) {
+        endGame();
+    }
+
+    curQuestion = questions.pop();
+    // clear html to get new question
+    clearDetails();
+
+    // add question to screen
+
+    let question = document.createElement("h1");
+    question.setAttribute("question", curQuestion.title);
+    question.textContent = curQuestion.title;
+    mainEl.appendChild(question)
+
+    // crerate list as container for answers
+
+    let choiceBox = document.createElement("ul");
+    choiceBox.setAttribute("id","choiceBox");
+    mainEl.appendChild(choiceBox);
+
+    // add answers to screeen
+    for (let i=0; i<curQuestion.choices.length; i++) {
+        // creates variable for each answer option
+        let listChoice = document.createElement("li");
+        // adds data value
+        listChoice.setAttribute("choice-value", curQuestion.choices[i]);
+        listChoice.setAttribute("id","questionNum-"+i);
+        listChoice.textContent = curQuestion.choices[i];
+        // options to page
+        choiceBox.appendChild(listChoice) 
+    }
+
+    // get answer
+    choiceBox.addEventListener("click", function () {
+        scoreAnswer(curQuestion);
+    });
+}
+
+
+// timer
 
 function countdown() {
-    
-
     var timeInterval = setInterval(function() {
-        if (timeLeft > 1) {
-            timerEl.textContent = timeLeft;
-            timeLeft--;
+        if (quizTime >= 1) {
+            timerEl.textContent = quizTime;
+            quizTime--;
         } else {
-         clearInterval(timeInterval);
-         // enter end quiz code
+        timerEl.textContent = '';   
+        clearInterval(timeInterval);
+        endGame();
 
         }
-
-
     }, 1000);
 }
+
+function clearDetails() {
+    mainEl.innerHTML = "";
+  }
+//
+//function endGame () {
+// prompt to add high score
+    
+//}
+
+startQuiz();
