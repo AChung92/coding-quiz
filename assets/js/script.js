@@ -4,6 +4,8 @@ var startBtn = document.getElementById('start');
 var questionEl = document.getElementById('question');
 var answerBtn = document.getElementById('answer');
 var mainEl = document.querySelector("#details");
+var scoreEl = document.getElementById('score');
+var highscoreButton = document.querySelector('#highscore');
 var quizTime = 30;
 
 
@@ -11,34 +13,35 @@ var score = 0;
 
 var questions = [
     {
-        q: "Commonly used data types DO NOT include:",
-        c: ["strings", "booleans", "alerts", "numbers"],
-        a: "alerts"
+        title: "Commonly used data types DO NOT include:",
+        choices: ["strings", "booleans", "alerts", "numbers"],
+        answer: "alerts"
       },
       {
-        q: "The condition in an if / else statement is enclosed within ____.",
-        c: ["quotes", "curly brackets", "parentheses", "square brackets"],
-        a: "parentheses"
+        title: "The condition in an if / else statement is enclosed within ____.",
+        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+        answer: "parentheses"
       },
       {
-        q: "What does CSS stand for?",
-        c: ["Cascading Styles Sheet", "Javascript", "Continuing Styles Sheet"],
-        a: "Cascading Styles Sheet"
+        title: "What does CSS stand for?",
+        choices: ["Cascading Styles Sheet", "Javascript", "Continuing Styles Sheet"],
+        answer: "Cascading Styles Sheet"
+
       },
       {
-        q: "DOM is an abreviation for ____",
-        c: ["Data Object Mode", "Dumb Old Man", "Document Object Model", "Dutle Opo Mipsy"],
-        a: "Document Object Model"
+        title: "DOM is an abreviation for ____",
+        choices: ["Data Object Mode", "Dumb Old Man", "Document Object Model", "Dutle Opo Mipsy"],
+        answer: "Document Object Model"
       },
       {
-        q: "Is JavaScript  fun to use?",
-        c: ["Yes", "No"],
-        a: "Yes"
+        title: "Is JavaScript  fun to use?",
+        choices: ["Yes", "No"],
+        answer: "Yes"
       },
       {
-        q: "Can I make a website using HTML?",
-        c: ["True", "False"],
-        a: "True"
+        title: "Can I make a website using HTML?",
+        choices: ["True", "False"],
+        answer: "True"
       }
 ];
 
@@ -80,7 +83,7 @@ function newQuestion () {
     question.textContent = curQuestion.title;
     mainEl.appendChild(question)
 
-    // crerate list as container for answers
+    // create list as container for answers
 
     let choiceBox = document.createElement("ul");
     choiceBox.setAttribute("id","choiceBox");
@@ -104,6 +107,20 @@ function newQuestion () {
     });
 }
 
+// add scoreAnswer
+
+function scoreAnswer(cur) {
+  var e = event.target;
+  if (e.matches("li")) {
+    let selectedItem = e.textContent;
+    if (selectedItem === cur.answer) {
+      score++;
+    } else{
+      quizTime - 5;
+    }
+  }
+}
+
 
 // timer
 
@@ -123,11 +140,50 @@ function countdown() {
 
 function clearDetails() {
     mainEl.innerHTML = "";
-  }
-//
-//function endGame () {
-// prompt to add high score
-    
-//}
+}
 
-startQuiz();
+function stopTime() {
+  quizTime = 0;
+  //clearInterval(timeInterval)
+}
+
+function endGame () {
+  stopTime();
+  clearDetails();
+  timerEl.setAttribute("style", "visibility: hidden;");
+  scoreEl.setAttribute("style", "visibility: hidden");
+  addHighscore();
+}
+// prompt to add high score
+
+// function to save high score
+
+function displayMessage(type, message) {
+  msgDiv.textContent = message;
+  msgDiv.setAttribute('class', type);
+}
+
+function addHighscore () {
+  highscoreButton.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var initial = document.querySelector('#initial').value;
+    var highscore = document.querySelector('#highscore').value;
+
+    if (initial === '') {
+      displayMessage ('error', 'Please submit initials');
+  
+    } else if (highscore === ''){
+      displayMessage('error', 'Highscore cannot be blank');
+
+    } else {
+      displayMessage('success', 'Highscore added');
+
+      localStorage.setItem('initial', initial);
+      localStorage.setItem('highscore', highscore);
+    }
+  })
+}
+
+
+startBtn.onclick = startQuiz;
