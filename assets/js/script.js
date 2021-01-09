@@ -71,7 +71,7 @@ function setQuestions (arr) {
 
 function newQuestion () {
     if (questions.length === 0) {
-        endGame();
+        stopTime();
     }
 
     curQuestion = questions.pop();
@@ -131,7 +131,7 @@ function scoreAnswer(e, cur) {
     //if (selectedItem === cur.answer) {
       score++;
     } else {
-      quizTime - 10;
+      quizTime -= 5;
       
     }
   newQuestion();
@@ -150,6 +150,7 @@ function countdown() {
         timerEl.textContent = '';   
         clearInterval(timeInterval);
         endGame();
+        
         
 
         }
