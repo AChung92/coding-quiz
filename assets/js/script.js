@@ -5,11 +5,12 @@ var questionEl = document.getElementById('question');
 var answerBtn = document.getElementById('answer');
 var mainEl = document.querySelector("#details");
 var scoreEl = document.getElementById('score');
-var highscoreButton = document.querySelector('#highscore');
-var quizTime = 30;
+var quizTime = 60;
+
 
 
 var score = 0;
+
 
 var questions = [
     {
@@ -46,6 +47,7 @@ var questions = [
 ];
 
 function startQuiz () {
+    startBtn.setAttribute("style", "visibility: hidden");
     quiz = setQuestions(questions);
     countdown();
     newQuestion();
@@ -92,6 +94,8 @@ function newQuestion () {
     // add answers to screeen
     for (let i=0; i<curQuestion.choices.length; i++) {
         // creates variable for each answer option
+
+
         let listChoice = document.createElement("li");
         // adds data value
         listChoice.setAttribute("choice-value", curQuestion.choices[i]);
@@ -99,27 +103,40 @@ function newQuestion () {
         listChoice.textContent = curQuestion.choices[i];
         // options to page
         choiceBox.appendChild(listChoice) 
+
+        // get answer
+        listChoice.addEventListener("click", function (event) {
+        console.log("click function");
+        scoreAnswer(event, curQuestion);
+
+  }); 
+
     }
 
     // get answer
-    choiceBox.addEventListener("click", function () {
-        scoreAnswer(curQuestion);
-    });
+    //listChoice.addEventListener("click", function () {
+        //console.log();
+        //scoreAnswer(curQuestion);
+  
+    //});
 }
 
 // add scoreAnswer
 
-function scoreAnswer(cur) {
-  var e = event.target;
-  if (e.matches("li")) {
-    let selectedItem = e.textContent;
-    if (selectedItem === cur.answer) {
+function scoreAnswer(e, cur) {
+  console.log("inside score answer", cur, e.target.textContent);
+  var answerOption = e.target.textContent;
+  if (answerOption === cur.answer) {
+    //let selectedItem = e.textContent;
+    //if (selectedItem === cur.answer) {
       score++;
-    } else{
+    } else {
       quizTime - 5;
+      
     }
-  }
+  newQuestion();
 }
+
 
 
 // timer
@@ -127,12 +144,13 @@ function scoreAnswer(cur) {
 function countdown() {
     var timeInterval = setInterval(function() {
         if (quizTime >= 1) {
-            timerEl.textContent = quizTime;
+            timerEl.textContent = "Time: " + quizTime;
             quizTime--;
         } else {
         timerEl.textContent = '';   
         clearInterval(timeInterval);
         endGame();
+        
 
         }
     }, 1000);
@@ -164,23 +182,35 @@ function displayMessage(type, message) {
 }
 
 function addHighscore () {
-  highscoreButton.addEventListener('click', function(event) {
+  console.log("print" + score);
+  var endScore = document.createElement('div');
+  endScore.setAttribute("id", "final-score");
+
+  var initialEl = document.createElement('input');
+  initialEl.setAttribute("id", "initial");
+  var buttonEl = document.createElement('button');
+  buttonEl.setAttribute("id", "add-button");
+  var body = document.body;
+  body.appendChild(initialEl);
+  body.appendChild(buttonEl);
+  body.appendChild(endScore);
+  document.getElementById("final-score").innerHTML= "Your final score is " + score + " Submit your initials to save your score";
+  document.getElementById("add-button").innerHTML="Submit";  
+  buttonEl.addEventListener('click', function(event) {
     event.preventDefault();
 
-    var initial = document.querySelector('#initial').value;
-    var highscore = document.querySelector('#highscore').value;
-
+    var initial = document.getElementById('initial').value;
+    //var highscore = document.querySelector('#highscore').value;
+    console.log("initial is good", initial);
     if (initial === '') {
       displayMessage ('error', 'Please submit initials');
   
-    } else if (highscore === ''){
-      displayMessage('error', 'Highscore cannot be blank');
-
+    
     } else {
-      displayMessage('success', 'Highscore added');
+      //displayMessage('success', 'Highscore added');
 
       localStorage.setItem('initial', initial);
-      localStorage.setItem('highscore', highscore);
+      localStorage.setItem('highscore', score);
     }
   })
 }

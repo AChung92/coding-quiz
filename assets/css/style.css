@@ -1,34 +1,12 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-    font-family: Courier New;
-}
-
 body {
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: center;
-    width: 100vw;
-    height: 100vw;
     align-items: center;
     background-color: #white;
 }
 
-.container {
-    width: 800px;
-    max-width: 80%;
-    background-color: white;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 0 10px 2px;
-}
-
-.btn-grid {
-    display: grid;
-    grid-template-columns: repeat (2, auto);
-    gap: 10px;
-    margin: 20px 0;
-}
 
 .btn {
     background-color: white;
@@ -48,12 +26,24 @@ body {
     padding: 10px 20px;
 }
 
-.controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+li {
+    height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: rgba(75, 172, 189, 0.89);
+    color: #fff;
+    font-size: 1.5em;
+    line-height: 1.5;
+    list-style-type: none;
+
 }
 
-.hide {
-    display: none;
+li:hover {
+    background-color: #075562;
 }
+
+button {
+    margin: 1em;
+}
+
