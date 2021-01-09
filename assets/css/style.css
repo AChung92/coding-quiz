@@ -64,3 +64,14 @@ outline: none;
     line-height: 1.5;
     list-style-type: none;
 }
+
+#save-score {
+    height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 1.5em;
+    line-height: 1.5;
+    list-style-type: none;
+    font-weight: bold;
+}

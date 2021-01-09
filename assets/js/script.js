@@ -212,8 +212,22 @@ function addHighscore () {
 
       localStorage.setItem('initial', initial);
       localStorage.setItem('highscore', score);
+
     }
   })
+  renderLastScore();
+}
+
+function renderLastScore() {
+  var savedInitial = localStorage.getItem("initial")
+  var savedHighscore = localStorage.getItem("highscore")
+  var saveScore = document.createElement('div');
+  saveScore.setAttribute("id", "save-score");
+  var body = document.body;
+
+  body.appendChild(saveScore);
+
+  document.getElementById("save-score").innerHTML= "Highscore: " + savedInitial + " " + savedHighscore;
 }
 
 
