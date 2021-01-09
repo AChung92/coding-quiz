@@ -47,3 +47,20 @@ button {
     margin: 1em;
 }
 
+#add-button {
+background-color: white;
+border-radius: 5px;
+padding: 5px 10px;
+color: black;
+outline: none;
+}
+
+#final-score {
+    height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 1.5em;
+    line-height: 1.5;
+    list-style-type: none;
+}

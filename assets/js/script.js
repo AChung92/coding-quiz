@@ -131,7 +131,7 @@ function scoreAnswer(e, cur) {
     //if (selectedItem === cur.answer) {
       score++;
     } else {
-      quizTime - 5;
+      quizTime - 10;
       
     }
   newQuestion();
@@ -191,10 +191,10 @@ function addHighscore () {
   var buttonEl = document.createElement('button');
   buttonEl.setAttribute("id", "add-button");
   var body = document.body;
+  body.appendChild(endScore);
   body.appendChild(initialEl);
   body.appendChild(buttonEl);
-  body.appendChild(endScore);
-  document.getElementById("final-score").innerHTML= "Your final score is " + score + " Submit your initials to save your score";
+  document.getElementById("final-score").innerHTML= "Your final score is " + score + "! Submit your initials to save your score!";
   document.getElementById("add-button").innerHTML="Submit";  
   buttonEl.addEventListener('click', function(event) {
     event.preventDefault();
