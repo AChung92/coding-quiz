@@ -20,3 +20,7 @@ Project created with:
 To view my finished project please visit the below.
 
 [Coding Quiz](https://achung92.github.io/coding-quiz/.)
+
+## Screenshot
+
+![screenshot](assets/images/password-demo.png)
