@@ -23,4 +23,4 @@ To view my finished project please visit the below.
 
 ## Screenshot
 
-![screenshot](assets/images/password-demo.png)
+![screenshot](assets/images/password-demo.PNG)
